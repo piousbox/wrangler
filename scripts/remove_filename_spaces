@@ -1,0 +1,17 @@
+#!/bin/bash
+##
+## don't forget to `brew install rename`
+##
+
+set -ex
+
+cd "$1"
+
+two=$(find . -maxdepth 1 -type f)
+
+# for f in $two; do mv "$f" `echo $f | tr ' ' '_'`; done
+
+find . -name "* *" -type f | rename 's/ /_/g'
+
+set +ex
+echo ok

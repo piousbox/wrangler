@@ -1,0 +1,8 @@
+#!/bin/bash
+
+set -ex
+
+ffmpeg -i "$1" -s 960x540 -crf 18 "$1.webm"
+
+set +ex
+echo ok

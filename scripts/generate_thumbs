@@ -1,0 +1,14 @@
+#!/bin/bash
+
+set -ex
+
+cd "$1"
+
+find . -name "*jpg" -depth 1 -exec convert -resize 1200x1200 {} {}_thumb.jpg \;
+mkdir -p thumbs
+mv *thumb.jpg thumbs
+
+tree
+
+set +ex
+echo ok
