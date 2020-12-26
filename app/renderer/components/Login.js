@@ -23,73 +23,67 @@ export default class Login extends Component {
   state = {
     username: '',
     stdout: '',
+    stderr: '',
+    error: '',
   };
 
-  handleLogin = () => {
-    this.props.onLogin({
-      username: this.state.username,
-      loggedIn: true,
-    });
-  };
-
-  handleChange = (e) => {
-    this.setState({
-      username: e.target.value,
-    });
+  handleTest = () => {
+    this.setState({ stdout: '', stderr: '', error: '' })
+    exec('echo process.resourcesPath', (error, stdout, stderr) => {
+      this.setState({ stdout, stderr, error, })
+    })
   };
 
   handleCreateThumbs = (e) => {
-    this.setState({ stdout: '' })
-
-    const tmp = dialog.showOpenDialogSync({ properties: ['openDirectory'] })
-
-    const execute = () => {
-      exec(`./scripts/generate_thumbs "${tmp}"`, (error, stdout, stderr) => {
-        logg(error, 'error')
-        logg(stdout, 'stdout')
-        logg(stderr, 'stderr')
-        this.setState({ stdout, })
+    this.setState({ stdout: '', stderr: '', error: '' })
+    const path = dialog.showOpenDialogSync({ properties: ['openDirectory'] })
+    if (path) {
+      exec(`${process.resourcesPath}/app/scripts/generate_thumbs "${path}" "${process.resourcesPath}"`, (error, stdout, stderr) => {
+        this.setState({ stdout, stderr, error, })
       })
     }
-
-    execute()
   }
 
   handleConvertVideo = (e) => {
-    this.setState({ stdout: '' })
+    this.setState({ stdout: '', stderr: '', error: '' })
     const path = dialog.showOpenDialogSync({ properties: ['openFile'] })
-    logg(path, 'path')
-    exec(`./scripts/convert_video "${path}"`, (error, stdout, stderr) => {
-      logg(error, 'error')
-      logg(stdout, 'stdout')
-      logg(stderr, 'stderr')
-      this.setState({ stdout, })
-    })
+    if (path) {
+      exec(`${process.resourcesPath}/scripts/convert_video "${path}"`, (error, stdout, stderr) => {
+        this.setState({ stdout, stderr, error, })
+      })
+    }
   }
 
   handleRemoveFilenameSpaces = (e) => {
-    const tmp = dialog.showOpenDialogSync({ properties: ['openDirectory'] })
-    logg(tmp, 'tmp')
-
-    exec(`./scripts/remove_filename_spaces "${tmp}"`, (error, stdout, stderr) => {
-      logg(error, 'error')
-      logg(stdout, 'stdout')
-      logg(stderr, 'stderr')
-      this.setState({ stdout, })
-    })
+    this.setState({ stdout: '', stderr: '', error: '' })
+    const path = dialog.showOpenDialogSync({ properties: ['openDirectory'] })
+    if (path) {
+      exec(`${process.resourcesPath}/scripts/remove_filename_spaces "${path}"`, (error, stdout, stderr) => {
+        this.setState({ stdout, stderr, error, })
+      })
+    }
   }
 
   render() {
     return (
       <div>
 
-        <h2>Select Dir</h2>
+        <button onClick={this.handleTest}>Test</button>
         <button onClick={this.handleCreateThumbs}>Create Thumbs</button>
         <button onClick={this.handleRemoveFilenameSpaces}>remove filename spaces</button>
         <button onClick={this.handleConvertVideo}>convert video</button>
 
         <div>
+          <h5>error</h5>
+          <pre>{this.state.error}</pre>
+        </div>
+        <div>
+          <h5>stdout</h5>
           <pre>{this.state.stdout}</pre>
+        </div>
+        <div>
+          <h5>stderr</h5>
+          <pre>{this.state.stderr}</pre>
         </div>
 
       </div>

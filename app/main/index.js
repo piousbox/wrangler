@@ -51,6 +51,7 @@ app.on('ready', async () => {
   });
 
   mainWindow.loadFile(path.resolve(path.join(__dirname, '../renderer/index.html')));
+  mainWindow.webContents.openDevTools()
 
   // show window once on first load
   mainWindow.webContents.once('did-finish-load', () => {

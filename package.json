@@ -2,7 +2,7 @@
   "name": "wrangler",
   "version": "0.0.0",
   "description": "",
-  "main": "init.js",
+  "main": "./init.js",
   "author": {
     "name": "Victor Piousbox",
     "email": "piousbox@gmail.com"
@@ -46,6 +46,7 @@
     "rimraf": "^3.0.2"
   },
   "scripts": {
+    "build2": "electron-builder -m",
     "postinstall": "electron-builder install-app-deps",
     "start": "gulp develop",
     "test": "electron-mocha --renderer -R spec --require @babel/register test/**/*.spec.js",

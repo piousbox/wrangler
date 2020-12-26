@@ -1,8 +1,8 @@
-appId: com.example.app
-copyright: Example co
+appId: co.wasya.wrangler
+copyright: Wasya Co
 productName: MyApp
 
-asar: true
+asar: false
 
 directories:
   buildResources: dist-assets/
@@ -13,6 +13,7 @@ files:
   - init.js
   - build/
   - node_modules/
+  - scripts/
 
 dmg:
   contents:

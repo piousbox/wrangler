@@ -1,14 +1,17 @@
 #!/bin/bash
 
+# @TODO: call $1 (cwd) something else?
+# @TODO: call $2 (process.resoucesPath) something else?
+
 set -ex
 
 cd "$1"
 
-find . -name "*jpg" -depth 1 -exec convert -resize 1200x1200 {} {}_thumb.jpg \;
+find . -name "*jpg" -depth 1 -exec $2/app/scripts/convert -resize 1200x1200 {} {}_thumb.jpg \;
 mkdir -p thumbs
 mv *thumb.jpg thumbs
 
-tree
+$2/app/scripts/tree
 
 set +ex
 echo ok
